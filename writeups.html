@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Cyber Writeups | Aneesh Mishra</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <header class="page-header">
+      <a class="home-link" href="index.html">Aneesh Mishra</a>
+      <nav class="tab-nav compact" aria-label="Portfolio pages">
+        <a href="projects.html">Projects</a>
+        <a class="active" href="writeups.html">Cyber Writeups</a>
+        <a href="brag-sheet.html">Brag Sheet</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="content-card writeups-card">
+        <p class="mini-title">Cybersecurity Challenges</p>
+        <h1>Writeups</h1>
+        <p>
+          Drop `.docx` files into the `writeups` folder. When this site is on
+          GitHub Pages, this page will find them, list them, and render the
+          selected writeup here.
+        </p>
+
+        <div class="writeups-layout">
+          <aside class="writeup-list-panel" aria-label="Available writeups">
+            <h2>Files</h2>
+            <div class="writeup-list" data-writeup-list>
+              <p class="empty-state">Loading writeups...</p>
+            </div>
+          </aside>
+
+          <article class="writeup-reader" aria-live="polite">
+            <div class="reader-header">
+              <span class="tile-number">DOCX</span>
+              <div>
+                <h2 data-writeup-title>Select a writeup</h2>
+                <p data-writeup-status>Choose a `.docx` file from the list.</p>
+              </div>
+            </div>
+            <div class="docx-content" data-writeup-content></div>
+          </article>
+        </div>
+      </section>
+    </main>
+
+    <script src="assets/mammoth.browser.min.js"></script>
+    <script src="writeups-config.js"></script>
+    <script src="script.js"></script>
+  </body>
+</html>

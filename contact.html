@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Contact | Aneesh Mishra</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;600;700&family=Press+Start+2P&display=swap"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="scanlines" aria-hidden="true"></div>
+
+    <header class="page-header">
+      <a class="home-link" href="index.html">Aneesh Mishra</a>
+      <nav class="tab-nav compact" aria-label="Portfolio pages">
+        <a href="projects.html">Projects</a>
+        <a href="writeups.html">Cyber Writeups</a>
+        <a href="brag-sheet.html">Brag Sheet</a>
+        <a class="active" href="contact.html">Contact</a>
+      </nav>
+    </header>
+
+    <main class="page-shell">
+      <section class="content-card">
+        <p class="mini-title">Contact Info</p>
+        <h1>Contact</h1>
+        <div class="two-column">
+          <div>
+            <h2>School-appropriate links</h2>
+            <ul class="link-list">
+              <li><a href="mailto:your.email@example.com">your.email@example.com</a></li>
+              <li><a href="https://github.com/" target="_blank" rel="noreferrer">GitHub Placeholder</a></li>
+              <li><a href="https://www.linkedin.com/" target="_blank" rel="noreferrer">LinkedIn Placeholder</a></li>
+            </ul>
+          </div>
+
+          <form class="contact-form" aria-label="Contact form">
+            <label>
+              Name
+              <input type="text" name="name" placeholder="Visitor name" />
+            </label>
+            <label>
+              Email
+              <input type="email" name="email" placeholder="visitor@example.com" />
+            </label>
+            <label>
+              Message
+              <textarea name="message" rows="4" placeholder="Write a message..."></textarea>
+            </label>
+            <button class="form-button" type="submit">Send Message</button>
+            <p class="form-note" role="status" aria-live="polite"></p>
+          </form>
+        </div>
+      </section>
+    </main>
+
+    <script src="script.js"></script>
+  </body>
+</html>
