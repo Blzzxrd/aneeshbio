@@ -1,11 +1,24 @@
+/* Give headings the full panel width before supporting copy begins. */
+@media (min-width: 781px) {
+  .page-intro {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+
+  .page-intro h1 {
+    font-size: clamp(1.5rem, 2.7vw, 2.35rem);
+    white-space: nowrap;
+  }
+
+  .page-intro p:last-child {
+    align-self: start;
+    max-width: 44rem;
+  }
+}
+
 /* A one-piece intro title gets the full panel width instead of an empty column. */
 .page-intro.title-only {
   grid-template-columns: 1fr;
-}
-
-.page-intro.title-only h1 {
-  font-size: clamp(1.8rem, 3.7vw, 3.1rem);
-  white-space: nowrap;
 }
 
 @media (max-width: 780px) {
