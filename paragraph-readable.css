@@ -1,0 +1,33 @@
+/* A technical, monospaced body face that keeps the pixel headings readable. */
+body,
+p:not(.section-kicker):not(.eyebrow),
+.lede,
+.entry p,
+.page-intro p:last-child,
+.landing-header p,
+.landing-footer {
+  font-family: Consolas, "Courier New", monospace;
+}
+
+.entry p,
+.page-intro p:last-child,
+.lede {
+  line-height: 1.75;
+  letter-spacing: 0.01em;
+}
+
+.page-intro p:last-child {
+  max-width: 36ch;
+}
+
+@media (max-width: 780px) {
+  body,
+  p:not(.section-kicker):not(.eyebrow),
+  .lede,
+  .entry p,
+  .page-intro p:last-child,
+  .landing-header p,
+  .landing-footer {
+    font-size: 0.94em;
+  }
+}
