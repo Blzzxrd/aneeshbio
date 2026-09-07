@@ -29,10 +29,12 @@ if (button && explorer) {
     if (window.matchMedia("(max-width: 1200px)").matches) return;
 
     const links = [...document.querySelectorAll(".orbit-link")];
+    // Keep the constellation in the open right-hand canvas, but give each
+    // card enough room to breathe instead of clustering them together.
     const cx = innerWidth * 0.81;
     const cy = innerHeight * 0.54;
-    const rx = Math.min(190, innerWidth * 0.15);
-    const ry = Math.min(205, Math.max(175, innerHeight * 0.22));
+    const rx = Math.min(250, innerWidth * 0.20);
+    const ry = Math.min(250, Math.max(200, innerHeight * 0.27));
     const nodes = links.map((link, index) => {
       const rect = link.getBoundingClientRect();
       return {
