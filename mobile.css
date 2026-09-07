@@ -1,0 +1,234 @@
+/* Phone-first reflow: the home constellation becomes a readable exploration grid. */
+@media (max-width: 780px) {
+  body {
+    font-size: 17px;
+  }
+
+  .page-header {
+    gap: 10px;
+    padding: 14px 16px 10px;
+  }
+
+  .page-header .wordmark {
+    font-size: 10px;
+  }
+
+  .tab-nav {
+    width: 100%;
+    flex-wrap: nowrap;
+    gap: 5px;
+    overflow-x: auto;
+    padding: 2px 0 7px;
+    scrollbar-width: thin;
+  }
+
+  .tab-nav a {
+    flex: 0 0 auto;
+    padding: 8px;
+    font-size: 8px;
+  }
+
+  .page-shell,
+  .resume-shell {
+    width: calc(100% - 24px);
+    padding: 34px 0 52px;
+  }
+
+  .page-intro {
+    gap: 18px;
+    padding: 24px 20px;
+  }
+
+  .page-intro h1 {
+    font-size: clamp(1.45rem, 7.2vw, 2.15rem);
+    line-height: 1.5;
+  }
+
+  .page-intro p:last-child {
+    font-size: 1rem;
+  }
+
+  .timeline {
+    margin-top: 30px;
+  }
+
+  .entry {
+    gap: 14px;
+    padding: 24px 18px;
+  }
+
+  .entry h2 {
+    font-size: clamp(.88rem, 4vw, 1.05rem);
+    line-height: 1.75;
+  }
+
+  .entry h2 span,
+  .entry-meta,
+  .skill-row span {
+    font-size: 8px;
+  }
+
+  .entry p {
+    line-height: 1.7;
+  }
+
+  .skill-row {
+    gap: 7px;
+    margin-top: 14px;
+  }
+
+  .skill-row span {
+    padding: 6px 7px;
+  }
+
+  .organization-logo,
+  .stevens-logo,
+  .columbia-logo {
+    max-width: 145px;
+    height: auto;
+  }
+
+  .resume-layout {
+    margin-top: 30px;
+  }
+
+  .resume-frame,
+  .resume-frame iframe {
+    min-height: 540px;
+    height: 540px;
+  }
+
+  .resume-actions {
+    padding: 25px 20px;
+  }
+
+  .resume-actions .download {
+    width: 100%;
+    justify-content: center;
+    margin: 12px 0 0;
+  }
+
+  .landing-page .explorer {
+    min-height: 100svh;
+    overflow-y: auto;
+  }
+
+  .landing-page .portfolio {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    gap: 26px;
+    min-height: 100svh;
+    padding: 22px 16px 30px;
+  }
+
+  .landing-page .landing-header,
+  .landing-page .intro,
+  .landing-page .orbit,
+  .landing-page .landing-footer {
+    position: relative;
+    inset: auto;
+  }
+
+  .landing-page .landing-header {
+    align-items: flex-start;
+    margin: 0;
+  }
+
+  .landing-page .landing-header .status {
+    margin-left: auto;
+    font-size: 8px;
+  }
+
+  .landing-page .intro {
+    width: 100%;
+    max-width: none;
+    margin: 0;
+    padding: 24px 20px;
+    transform: none;
+  }
+
+  .landing-page .profile-intro {
+    grid-template-columns: 92px minmax(0, 1fr);
+    gap: 18px;
+  }
+
+  .landing-page .profile-picture {
+    width: 92px;
+    height: 92px;
+  }
+
+  .landing-page .intro h1 {
+    font-size: clamp(1.2rem, 7vw, 1.75rem);
+  }
+
+  .landing-page .lede {
+    font-size: 1rem;
+  }
+
+  .landing-page .orbit {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 14px;
+    width: 100%;
+    margin: 0;
+  }
+
+  .landing-page .orbit:before {
+    display: none;
+  }
+
+  .landing-page .orbit-link,
+  .landing-page .research,
+  .landing-page .builds,
+  .landing-page .leadership,
+  .landing-page .music,
+  .landing-page .resume {
+    position: relative;
+    inset: auto;
+    width: 100%;
+    min-width: 0;
+    max-width: none;
+    padding: 14px 11px 13px 22px;
+    font-size: 9px;
+  }
+
+  .landing-page .orbit-link:before {
+    left: -13px;
+    top: 13px;
+    font-size: 17px;
+  }
+
+  .landing-page .orbit-link span,
+  .landing-page .orbit-link small {
+    font-size: 7px;
+  }
+
+  .landing-page .landing-footer {
+    margin-top: auto;
+    font-size: 7px;
+  }
+}
+
+@media (max-width: 390px) {
+  .landing-page .portfolio {
+    padding-inline: 12px;
+  }
+
+  .landing-page .profile-intro {
+    grid-template-columns: 1fr;
+    text-align: center;
+  }
+
+  .landing-page .profile-picture {
+    margin: 0 auto;
+  }
+
+  .landing-page .lede {
+    margin-inline: auto;
+  }
+
+  .landing-page .orbit {
+    grid-template-columns: 1fr;
+  }
+}
