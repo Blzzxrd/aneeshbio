@@ -1,184 +1,84 @@
-const yearElement = document.querySelector("#year");
-const contactForm = document.querySelector(".contact-form");
-const formNote = document.querySelector(".form-note");
-const writeupList = document.querySelector("[data-writeup-list]");
-const writeupTitle = document.querySelector("[data-writeup-title]");
-const writeupStatus = document.querySelector("[data-writeup-status]");
-const writeupContent = document.querySelector("[data-writeup-content]");
+const explorer = document.querySelector("#explorer");
+const button = document.querySelector("#explore-button");
 
-if (yearElement) {
-  yearElement.textContent = new Date().getFullYear();
+if (button && explorer) {
+  let orbitFrame;
+  let lastSparkle = 0;
+
+  if (
+    window.matchMedia("(pointer: fine)").matches &&
+    !window.matchMedia("(prefers-reduced-motion: reduce)").matches
+  ) {
+    window.addEventListener("pointermove", (event) => {
+      const now = performance.now();
+      if (now - lastSparkle < 34) return;
+      lastSparkle = now;
+
+      const sparkle = document.createElement("span");
+      sparkle.className = "cursor-sparkle";
+      sparkle.style.left = `${event.clientX}px`;
+      sparkle.style.top = `${event.clientY}px`;
+      sparkle.style.setProperty("--drift-x", `${Math.round((Math.random() - 0.5) * 30)}px`);
+      sparkle.style.setProperty("--drift-y", `${Math.round(12 + Math.random() * 26)}px`);
+      document.body.append(sparkle);
+      window.setTimeout(() => sparkle.remove(), 720);
+    });
+  }
+
+  const startOrbit = () => {
+    if (window.matchMedia("(max-width: 1200px)").matches) return;
+
+    const links = [...document.querySelectorAll(".orbit-link")];
+    const cx = innerWidth * 0.81;
+    const cy = innerHeight * 0.54;
+    const rx = Math.min(190, innerWidth * 0.15);
+    const ry = Math.min(205, Math.max(175, innerHeight * 0.22));
+    const nodes = links.map((link, index) => {
+      const rect = link.getBoundingClientRect();
+      return {
+        link,
+        width: rect.width,
+        height: rect.height,
+        baseX: link.offsetLeft,
+        baseY: link.offsetTop,
+        phase: -Math.PI / 2 + (index * Math.PI * 2) / links.length,
+      };
+    });
+
+    const animate = (time) => {
+      const turn = time * 0.00007;
+      nodes.forEach((node) => {
+        const x = cx + rx * Math.cos(node.phase + turn) - (node.baseX + node.width / 2);
+        const y = cy + ry * Math.sin(node.phase + turn) - (node.baseY + node.height / 2);
+        node.link.style.transform = `translate3d(${x}px, ${y}px, 0)`;
+      });
+      orbitFrame = requestAnimationFrame(animate);
+    };
+
+    orbitFrame = requestAnimationFrame(animate);
+  };
+
+  button.addEventListener(
+    "click",
+    () => {
+      explorer.classList.add("open");
+      button.setAttribute("aria-expanded", "true");
+      document.querySelector(".portfolio")?.setAttribute("aria-hidden", "false");
+      startOrbit();
+    },
+    { once: true },
+  );
+
+  document.querySelectorAll(".orbit-link").forEach((link) =>
+    link.addEventListener("click", (event) => {
+      event.preventDefault();
+      cancelAnimationFrame(orbitFrame);
+
+      const destination = link.href;
+      requestAnimationFrame(() => explorer.classList.add("navigating"));
+      window.setTimeout(() => {
+        location.href = destination;
+      }, 520);
+    }),
+  );
 }
-
-if (contactForm && formNote) {
-  contactForm.addEventListener("submit", (event) => {
-    event.preventDefault();
-    formNote.textContent = "Message placeholder received. Add a real form service later.";
-  });
-}
-
-const cleanFileName = (name) =>
-  name
-    .replace(/\.docx$/i, "")
-    .replace(/[-_]+/g, " ")
-    .replace(/\b\w/g, (letter) => letter.toUpperCase());
-
-const getConfig = () => ({
-  folder: "writeups",
-  branch: "main",
-  ...(window.WRITEUPS_CONFIG || {})
-});
-
-const getGithubDetails = () => {
-  const config = getConfig();
-
-  if (config.owner && config.repo) {
-    return config;
-  }
-
-  if (!location.hostname.endsWith("github.io")) {
-    return null;
-  }
-
-  const owner = location.hostname.replace(".github.io", "");
-  const firstPathPart = location.pathname.split("/").filter(Boolean)[0];
-  const repo = firstPathPart || `${owner}.github.io`;
-  const sitePrefix = firstPathPart ? `/${firstPathPart}/` : "/";
-
-  return { ...config, owner, repo, sitePrefix };
-};
-
-const normalizeWriteup = (entry) => ({
-  name: entry.name,
-  title: entry.title || cleanFileName(entry.name),
-  path: entry.path || entry.download_url || `${getConfig().folder}/${entry.name}`,
-  downloadUrl: entry.download_url || entry.path || `${getConfig().folder}/${entry.name}`
-});
-
-const fromLocalDirectory = async () => {
-  if (!["localhost", "127.0.0.1"].includes(location.hostname)) {
-    return [];
-  }
-
-  const folder = getConfig().folder;
-  const response = await fetch(`${folder}/`);
-  if (!response.ok) {
-    return [];
-  }
-
-  const html = await response.text();
-  const documentFragment = new DOMParser().parseFromString(html, "text/html");
-
-  return [...documentFragment.querySelectorAll("a")]
-    .map((link) => decodeURIComponent(link.getAttribute("href") || ""))
-    .filter((href) => href.toLowerCase().endsWith(".docx"))
-    .map((name) => normalizeWriteup({ name, path: `${folder}/${name}` }));
-};
-
-const fromGithubApi = async () => {
-  const details = getGithubDetails();
-  if (!details) {
-    return [];
-  }
-
-  const apiUrl = `https://api.github.com/repos/${details.owner}/${details.repo}/contents/${details.folder}?ref=${details.branch}`;
-  const response = await fetch(apiUrl, { headers: { Accept: "application/vnd.github+json" } });
-
-  if (!response.ok) {
-    return [];
-  }
-
-  const items = await response.json();
-  return items
-    .filter((item) => item.type === "file" && item.name.toLowerCase().endsWith(".docx"))
-    .map((item) => normalizeWriteup(item));
-};
-
-const fromManifest = async () => {
-  const folder = getConfig().folder;
-  const response = await fetch(`${folder}/manifest.json`);
-  if (!response.ok) {
-    return [];
-  }
-
-  const items = await response.json();
-  return items
-    .filter((item) => item.name && item.name.toLowerCase().endsWith(".docx"))
-    .map((item) => normalizeWriteup(item));
-};
-
-const loadWriteupList = async () => {
-  const sources = [fromLocalDirectory, fromGithubApi, fromManifest];
-
-  for (const source of sources) {
-    try {
-      const writeups = await source();
-      if (writeups.length > 0) {
-        return writeups.sort((a, b) => a.title.localeCompare(b.title));
-      }
-    } catch (error) {
-      console.warn("Writeup source failed:", error);
-    }
-  }
-
-  return [];
-};
-
-const renderWriteup = async (writeup, button) => {
-  if (!window.mammoth) {
-    writeupStatus.textContent = "The DOCX renderer could not load. Check your connection and try again.";
-    return;
-  }
-
-  document.querySelectorAll(".writeup-button").forEach((item) => item.classList.remove("active"));
-  button.classList.add("active");
-  writeupTitle.textContent = writeup.title;
-  writeupStatus.textContent = "Loading document...";
-  writeupContent.innerHTML = "";
-
-  try {
-    const response = await fetch(writeup.downloadUrl);
-    if (!response.ok) {
-      throw new Error(`Could not load ${writeup.name}`);
-    }
-
-    const arrayBuffer = await response.arrayBuffer();
-    const result = await window.mammoth.convertToHtml({ arrayBuffer });
-    writeupContent.innerHTML = result.value || "<p>This document did not contain readable content.</p>";
-    writeupStatus.textContent = "Rendered from DOCX.";
-  } catch (error) {
-    writeupStatus.textContent = "This writeup could not be loaded yet.";
-    writeupContent.innerHTML = `<p class="empty-state">${error.message}</p>`;
-  }
-};
-
-const initWriteups = async () => {
-  if (!writeupList || !writeupTitle || !writeupStatus || !writeupContent) {
-    return;
-  }
-
-  const writeups = await loadWriteupList();
-  writeupList.innerHTML = "";
-
-  if (writeups.length === 0) {
-    writeupTitle.textContent = "No writeups yet";
-    writeupStatus.textContent = "Add `.docx` files to the `writeups` folder.";
-    writeupList.innerHTML = '<p class="empty-state">No `.docx` files found.</p>';
-    return;
-  }
-
-  writeups.forEach((writeup, index) => {
-    const button = document.createElement("button");
-    button.className = "writeup-button";
-    button.type = "button";
-    button.textContent = writeup.title;
-    button.addEventListener("click", () => renderWriteup(writeup, button));
-    writeupList.appendChild(button);
-
-    if (index === 0) {
-      renderWriteup(writeup, button);
-    }
-  });
-};
-
-initWriteups();
