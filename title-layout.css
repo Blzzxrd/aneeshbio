@@ -1,0 +1,15 @@
+/* A one-piece intro title gets the full panel width instead of an empty column. */
+.page-intro.title-only {
+  grid-template-columns: 1fr;
+}
+
+.page-intro.title-only h1 {
+  font-size: clamp(1.8rem, 3.7vw, 3.1rem);
+  white-space: nowrap;
+}
+
+@media (max-width: 780px) {
+  .page-intro.title-only h1 {
+    white-space: normal;
+  }
+}
