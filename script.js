@@ -31,10 +31,10 @@ if (button && explorer) {
     const links = [...document.querySelectorAll(".orbit-link")];
     // A wide constellation reads more like a true orbit and keeps adjacent
     // cards apart along the horizontal axis.
-    const cx = innerWidth * 0.77;
+    const cx = innerWidth * 0.755;
     const cy = innerHeight * 0.54;
-    const rx = Math.min(230, innerWidth * 0.15);
-    const ry = Math.min(165, Math.max(135, innerHeight * 0.18));
+    const rx = Math.min(220, innerWidth * 0.17);
+    const ry = Math.min(195, Math.max(165, innerHeight * 0.22));
     const phases = links.map((_, index) => -Math.PI / 2 + (index * Math.PI * 2) / links.length);
     const nodes = links.map((link, index) => {
       const rect = link.getBoundingClientRect();
