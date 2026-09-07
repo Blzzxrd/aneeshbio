@@ -31,10 +31,13 @@ if (button && explorer) {
     const links = [...document.querySelectorAll(".orbit-link")];
     // Keep the constellation in the open right-hand canvas, but give each
     // card enough room to breathe instead of clustering them together.
-    const cx = innerWidth * 0.81;
+    const cx = innerWidth * 0.83;
     const cy = innerHeight * 0.54;
-    const rx = Math.min(250, innerWidth * 0.20);
-    const ry = Math.min(250, Math.max(200, innerHeight * 0.27));
+    const rx = Math.min(120, innerWidth * 0.10);
+    const ry = Math.min(275, Math.max(210, innerHeight * 0.30));
+    // Stagger the stops instead of placing two cards on the same horizontal
+    // line; this keeps the orbit legible throughout its slow rotation.
+    const phases = [-Math.PI / 2, -0.15, 1.05, 2.45, 3.9];
     const nodes = links.map((link, index) => {
       const rect = link.getBoundingClientRect();
       return {
@@ -43,7 +46,7 @@ if (button && explorer) {
         height: rect.height,
         baseX: link.offsetLeft,
         baseY: link.offsetTop,
-        phase: -Math.PI / 2 + (index * Math.PI * 2) / links.length,
+        phase: phases[index] ?? (-Math.PI / 2 + (index * Math.PI * 2) / links.length),
       };
     });
 
