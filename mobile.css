@@ -243,3 +243,9 @@
   .landing-page .orbit:before { display: none; }
   .landing-page .orbit-link { width: 100%; min-width: 0; padding: 15px 14px 14px 24px; }
 }
+
+@media (min-width: 781px) and (max-width: 1000px) {
+  .landing-page .portfolio { grid-template-columns: 1fr; padding-inline: clamp(20px, 4vw, 36px); }
+  .landing-page .intro { width: 100%; }
+  .landing-page .orbit { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+}
