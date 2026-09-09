@@ -4,6 +4,9 @@ const button = document.querySelector("#explore-button");
 if (button && explorer) {
   let orbitFrame;
   let lastSparkle = 0;
+  const entryPrompt = "Hey, I’m Aneesh — click to explore";
+  button.querySelector(".dot-label").textContent = entryPrompt;
+  button.setAttribute("aria-label", entryPrompt);
 
   if (
     window.matchMedia("(pointer: fine)").matches &&
@@ -25,7 +28,16 @@ if (button && explorer) {
     });
   }
 
+  const stopOrbit = () => {
+    cancelAnimationFrame(orbitFrame);
+    orbitFrame = undefined;
+    document.querySelectorAll(".orbit-link").forEach((link) => {
+      link.style.transform = "";
+    });
+  };
+
   const startOrbit = () => {
+    stopOrbit();
     if (window.matchMedia("(max-width: 1200px)").matches) return;
 
     const links = [...document.querySelectorAll(".orbit-link")];
@@ -61,6 +73,14 @@ if (button && explorer) {
     orbitFrame = requestAnimationFrame(animate);
   };
 
+  let resizeTimer;
+  window.addEventListener("resize", () => {
+    window.clearTimeout(resizeTimer);
+    resizeTimer = window.setTimeout(() => {
+      if (explorer.classList.contains("open")) startOrbit();
+    }, 120);
+  });
+
   button.addEventListener(
     "click",
     () => {
@@ -75,7 +95,7 @@ if (button && explorer) {
   document.querySelectorAll(".orbit-link").forEach((link) =>
     link.addEventListener("click", (event) => {
       event.preventDefault();
-      cancelAnimationFrame(orbitFrame);
+      stopOrbit();
 
       const destination = link.href;
       requestAnimationFrame(() => explorer.classList.add("navigating"));
