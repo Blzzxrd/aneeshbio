@@ -81,13 +81,24 @@ if (button && explorer) {
     }, 120);
   });
 
+  const openPortfolio = () => {
+    explorer.classList.add("open");
+    button.setAttribute("aria-expanded", "true");
+    document.querySelector(".portfolio")?.setAttribute("aria-hidden", "false");
+    startOrbit();
+  };
+
+  document.querySelector(".landing-header .wordmark")?.addEventListener("click", (event) => {
+    event.preventDefault();
+    location.href = "index.html?home=1";
+  });
+
+  if (new URLSearchParams(location.search).has("home")) openPortfolio();
+
   button.addEventListener(
     "click",
     () => {
-      explorer.classList.add("open");
-      button.setAttribute("aria-expanded", "true");
-      document.querySelector(".portfolio")?.setAttribute("aria-hidden", "false");
-      startOrbit();
+      openPortfolio();
     },
     { once: true },
   );
