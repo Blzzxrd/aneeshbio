@@ -230,3 +230,16 @@
     grid-template-columns: 1fr;
   }
 }
+
+/* Tablets do not run the desktop orbit, so use an intentional card grid. */
+@media (min-width: 781px) and (max-width: 1200px) {
+  .landing-page .explorer { min-height: 100svh; overflow-y: auto; }
+  .landing-page .portfolio { position: relative; display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 24px; min-height: 100svh; padding: 30px clamp(28px, 5vw, 60px); }
+  .landing-page .landing-header, .landing-page .intro, .landing-page .orbit, .landing-page .landing-footer { position: relative; inset: auto; }
+  .landing-page .landing-header, .landing-page .landing-footer { grid-column: 1 / -1; }
+  .landing-page .intro { align-self: center; max-width: none; margin: 0; }
+  .landing-page .orbit { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: center; gap: 14px; }
+  .landing-page .orbit:before, .landing-page .orbit-link, .landing-page .research, .landing-page .builds, .landing-page .leadership, .landing-page .music, .landing-page .resume { position: relative; inset: auto; }
+  .landing-page .orbit:before { display: none; }
+  .landing-page .orbit-link { width: 100%; min-width: 0; padding: 15px 14px 14px 24px; }
+}
